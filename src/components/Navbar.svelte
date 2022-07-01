@@ -95,7 +95,7 @@
 
   let closeTimeout;
 
-  const dropAction = (el, name) => {
+  const menuAction = (el, name) => {
     const onEnter = () => {
       clearTimeout(closeTimeout);
       openMenu(name || lastOpenMenu);
@@ -104,11 +104,13 @@
       if (isMobile) return;
       closeTimeout = setTimeout(() => closeMenu(name || lastOpenMenu), 250);
     };
-    el.addEventListener("mouseenter", onEnter);
-    el.addEventListener("mouseleave", onLeave);
+    let eventEnterType = (isMobile) ? "click" : "mouseenter"
+    let eventLeaveType = (isMobile) ? "click" : "mouseleave"
+    el.addEventListener(eventEnterType, onEnter);
+    el.addEventListener(eventLeaveType, onLeave);
     return () => {
-      el.removeEventListener("mouseender", onEnter);
-      el.removeEventListener("mouseleave", onLeave);
+      el.removeEventListener(eventEnterType, onEnter);
+      el.removeEventListener(eventLeaveType, onLeave);
     };
   };
 
@@ -147,12 +149,11 @@
   let scrolled = false;
   $: scrolled = y > 0;
 
-  let width = 0;
-  let isMobile = false;
-  $: isMobile = width < 1050;
+  let innerWidth = 0;
+  $: isMobile = innerWidth < 1050;
 </script>
 
-<svelte:window bind:scrollY={y} bind:outerWidth={width} />
+<svelte:window bind:scrollY={y} bind:innerWidth />
 
 <div
   class="navbar"
@@ -183,19 +184,19 @@
   <div class="menu">
     {#if !isMobile}
       <span class:active={menus["products"]}>
-        <button class="flat" use:dropAction={"products"}> Products </button>
+        <button class="flat" use:menuAction={"products"}> Products </button>
       </span>
       <span class:active={menus["dev"]}>
-        <button class="flat" use:dropAction={"dev"}> Developers </button>
+        <button class="flat" use:menuAction={"dev"}> Developers </button>
       </span>
       <span class:active={menus["token"]}>
-        <button class="flat" use:dropAction={"token"}> Token </button>
+        <button class="flat" use:menuAction={"token"}> Token </button>
       </span>
       <span class:active={menus["community"]}>
-        <button class="flat" use:dropAction={"community"}> Community </button>
+        <button class="flat" use:menuAction={"community"}> Community </button>
       </span>
       <span class:active={menus["company"]}>
-        <button class="flat" use:dropAction={"company"}> Company </button>
+        <button class="flat" use:menuAction={"company"}> Company </button>
       </span>
     {/if}
   </div>
@@ -217,34 +218,34 @@
   <div
     class="submenu"
     class:mobile={isMobile}
-    use:dropAction
+    use:menuAction
     transition:fly={{ y: 80, duration: 200 }}
   >
     <Card>
       <div class="submenu-inner" style="--inner-height: {innerHeight}">
         {#if menus.mobile}
           <div class:active={menus["products"]}>
-            <button class="flat" use:dropAction={"products"}>
+            <button class="flat" use:menuAction={"products"}>
               <Products /> Products <ChevronRight />
             </button>
           </div>
           <div class:active={menus["dev"]}>
-            <button class="flat" use:dropAction={"dev"}>
+            <button class="flat" use:menuAction={"dev"}>
               <Code /> Developers <ChevronRight />
             </button>
           </div>
           <div class:active={menus["token"]}>
-            <button class="flat" use:dropAction={"token"}>
+            <button class="flat" use:menuAction={"token"}>
               <Coin /> Token <ChevronRight />
             </button>
           </div>
           <div class:active={menus["community"]}>
-            <button class="flat" use:dropAction={"community"}>
+            <button class="flat" use:menuAction={"community"}>
               <Community /> Community <ChevronRight />
             </button>
           </div>
           <div class:active={menus["company"]}>
-            <button class="flat" use:dropAction={"company"}>
+            <button class="flat" use:menuAction={"company"}>
               <Briefcase /> Company <ChevronRight />
             </button>
           </div>
@@ -679,6 +680,9 @@
 {/if}
 
 <style>
+  button {
+    cursor: pointer;
+  }
   .navbar {
     display: flex;
     padding: 0em 4em;
