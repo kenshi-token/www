@@ -377,17 +377,22 @@
   <h2>Latest articles</h2>
   <div class="grid">
     <Article
-      image="/images/medium/vrf.png"
-      title="Introducing the Kenshi VRF oracles."
-      description="VRFs play an important role in the blockchain, as the blockchain lacks the native functionality to securely generate random numbers due to its deterministic nature..."
-      href="https://blog.kenshi.io/introducing-the-kenshi-vrf-oracle-be1cbc4779c9"
+      image="/images/medium/kenshi-deep-index.png"
+      title="Kenshi Deep Indexing Service: Blazing fast blockchain data access."
+      description="Getting events out of the blockchain seems like a trivial task at first. You might be using libraries such as ethers.js or web3.js."
+      href="https://blog.kenshi.io/kenshi-deep-indexing-service-blazing-fast-blockchain-data-access-ceca261e8912"
     />
     <Article
-      image="/images/medium/kenshi-deep-index.png"
-      title="Introducing the Kenshi Deep Indexing Service."
-      description="Information published on the blockchain is publicly available and accessible by anyone who needs it. However, traversing the event logs and searching for specific events is not an easy task..."
-      href="https://blog.kenshi.io/introducing-the-kenshi-deep-blockchain-indexing-services-7fc4b159a946"
+      image="/images/medium/vrf.png"
+      title="Kenshi VRF: 40% to infinitely faster than Chainlink."
+      description="In this article, you’ll discover how the Kenshi VRF oracle compares with Chainlink."
+      href="https://blog.kenshi.io/kenshi-vrf-40-to-infinitely-faster-than-chainlink-7856853a3ac1"
     />
+  </div>
+  <div class="buttons">
+    <Button href="https://blog.kenshi.io/">
+      View all articles <External />
+    </Button>
   </div>
 </div>
 
@@ -592,7 +597,18 @@
     );
     gap: 2em;
   }
-  @media only screen and (max-width: 500px) {
+  .articles > .buttons {
+    margin-top: 2em;
+  }
+  @media screen and (max-width: 1350px) {
+    .articles .grid {
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(280px, calc((100% - 2em) / 2))
+      );
+    }
+  }
+  @media only screen and (max-width: 720px) {
     .articles .grid {
       grid-template-columns: 1fr;
     }
